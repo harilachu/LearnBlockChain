@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Smart Contract</title>
+        <script type="text/javascript" src="./node_modules/web3/dist/web3.js"></script>
+    </head>
+    <body>
+        <div>
+            <input id="input" type="text" name="name" placeholder="Enter name">
+            <button id="button">Set Name</button>
+            <pre id="output"></pre>
+        </div>
+    </body>
+
+    <script type="text/javascript">
+    var web3;
+    var contract_address = "0x48701aa2240005d43F8Dd47c000Faf4ac82612a6";
+    var abi = [
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_name",
+                    "type": "string"
+                }
+            ],
+            "name": "setName",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getName",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "name",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ];
+    
+    web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"))
+    
+    var accounts = undefined;
+    var new_contract = undefined;
+
+    web3.eth.getAccounts().then(function (result) {
+        console.log(result);
+        accounts = result;
+        web3.eth.defaultAccount = accounts[0];
+
+        var default_address = {
+        from: '0x52b75A9e9D86aeDbeCfD36c368456E9D782E6D9A', // default from address
+        gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
+        };  
+        new_contract = new web3.eth.Contract(abi, contract_address,default_address);
+
+    });
+
+    
+
+var pre = document.getElementById("output");
+var input = document.getElementById("input");
+var button = document.getElementById("button");
+
+button.addEventListener("click",function() {
+    new_contract.methods.setName(input.value).send().then(function() {
+         new_contract.methods.getName().call().then(function (result) {
+             pre.innerHTML = result;
+         });
+    });
+})
+
+    </script>
+</html>
