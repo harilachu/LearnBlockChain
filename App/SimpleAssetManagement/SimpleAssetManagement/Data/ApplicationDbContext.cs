@@ -12,5 +12,11 @@ namespace SimpleAssetManagement.Data
             : base(options)
         {
         }
+
+        public DbSet<Pippette> Pippettes { get; set; }
+        public DbSet<Manufacture> Manufactures { get; set; }
+        public DbSet<PippetteUser> PippetteUsers { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; }
     }
 }

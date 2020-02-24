@@ -15,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SimpleAssetManagement.Areas.Identity;
 using SimpleAssetManagement.Data;
-
+using AutoMapper;
 namespace SimpleAssetManagement
 {
     public class Startup
@@ -36,6 +36,10 @@ namespace SimpleAssetManagement
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            //Adding automapper
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
