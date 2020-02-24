@@ -4,3 +4,4 @@ node_modules
 /App/SimpleAssetManagement/SimpleAssetManagement/bin/Debug/netcoreapp3.1
 /App/SimpleAssetManagement/.vs/SimpleAssetManagement/DesignTimeBuild
 /App/SimpleAssetManagement/.vs/SimpleAssetManagement/config
+/.vs

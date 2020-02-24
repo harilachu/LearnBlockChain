@@ -21,5 +21,7 @@ namespace SimpleAssetManagement.Data
         [Range(1,1000)]
         [Display(Name = "Usage Frequency")]
         public int UsageFrequency { get; set; }
+
+        public string Location_Name { get; set; }
     }
 }

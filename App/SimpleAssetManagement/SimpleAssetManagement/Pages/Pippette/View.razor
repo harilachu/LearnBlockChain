@@ -1,0 +1,55 @@
+﻿@page "/pippette/View"
+@using SimpleAssetManagement.Data
+@inject PippetteDataService PippetteDataService
+
+<h3>View Pippettes</h3>
+
+@if (pippettes == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Model Name</th>
+                <th>Serial Number</th>
+                <th>Usage Frequency</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pippette in pippettes)
+            {
+                <tr>
+                    <td>@pippette.ModelName</td>
+                    <td>@pippette.SerialNumber</td>
+                    <td>@pippette.UsageFrequency</td>
+                    <td>@pippette.Location_Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<PippetteDto> pippettes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        pippettes = await PippetteDataService.GetPippettesAsync();
+
+    }
+
+    //private async Task<string> GetLocationDetails(PippetteDto pippette)
+    //{
+    //    if(pippette!=null)
+    //    {
+    //        var location = await PippetteDataService.GetPippetteLocationAsync(pippette.SerialNumber);
+    //        return location.Location_Name;
+    //    }
+
+    //    return string.Empty;
+    //}
+}

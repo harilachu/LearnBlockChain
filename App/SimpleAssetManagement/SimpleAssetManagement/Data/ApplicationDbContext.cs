@@ -18,5 +18,11 @@ namespace SimpleAssetManagement.Data
         public DbSet<PippetteUser> PippetteUsers { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Seed();
+        }
     }
 }
