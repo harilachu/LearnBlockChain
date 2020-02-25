@@ -1,0 +1,58 @@
+﻿@page "/pippette/delete/{Id:guid}"
+@inject PippetteDataService PippetteDataService
+@inject NavigationManager NavigationManager
+
+<div class="modal-header">
+    <h3>Deleting Pippette</h3>
+</div>
+
+<div class="modal-body">
+    <h4>Please confirm to delete the pippette.</h4> <br/>
+    
+    <div class="form-group row">
+        <label class="col-3 col-form-label">
+            Model Name:
+        </label>
+        <label class="col-8 col-form-label" id="modelname">
+            @PippetteDataDto.ModelName
+        </label>
+
+        <label class="col-3 col-form-label">
+            Serial Number:
+        </label>
+        <label class="col-8 col-form-label" id="serialnumber">
+            @PippetteDataDto.SerialNumber
+        </label>
+    </div>
+    <br/>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" @onclick="@(e=> OK(e))">OK</button>
+        <button class="btn btn-secondary" @onclick="@(e=> Cancel(e))">Cancel</button>
+    </div>
+</div>
+
+
+
+@code {
+    PippetteDataDto PippetteDataDto { get; set; } = new PippetteDataDto();
+
+    [Parameter]
+    public Guid Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        PippetteDataDto = await PippetteDataService.GetPippetteAsync(Id);
+    }
+
+    private async Task OK(MouseEventArgs e)
+    {
+        await PippetteDataService.DeletePippetteAsync(Id);
+        NavigationManager.NavigateTo("/pippette/view");
+    }
+
+    private void Cancel(MouseEventArgs e)
+    {
+        NavigationManager.NavigateTo("/pippette/view");
+    }
+}

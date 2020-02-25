@@ -1,7 +1,10 @@
 ﻿@page "/pippette/View"
 @inject PippetteDataService PippetteDataService
+@inject NavigationManager NavigationManager
 
-<h3>View Pippettes</h3>
+<div class="modal-header">
+    <h3>View Pippettes</h3>
+</div>
 
 @if (pippettes == null)
 {
@@ -9,8 +12,8 @@
 }
 else
 {
-    <table class="table">
-        <thead>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
             <tr>
                 <th>Model Name</th>
                 <th>Serial Number</th>
@@ -25,19 +28,29 @@ else
             {
                 @foreach (var pippette in pippettes)
                 {
-                <tr>
-                    <td>@pippette.ModelName</td>
-                    <td>@pippette.SerialNumber</td>
-                    <td>@pippette.UsageFrequency</td>
-                    <td>@pippette.Location_Name</td>
-                    <td>@pippette.Manufacture_Name</td>
-                    <td>@pippette.Pippette_User_Name</td>
-                    <td>
-                        <NavLink class="nav-link" href="pippette/add">
-                            <span class="oi oi-plus" aria-hidden="true"></span>
-                        </NavLink>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>@pippette.ModelName</td>
+                        <td>@pippette.SerialNumber</td>
+                        <td>@pippette.UsageFrequency</td>
+                        <td>@pippette.Location_Name</td>
+                        <td>@pippette.Manufacture_Name</td>
+                        <td>@pippette.Pippette_User_Name</td>
+                        <td>
+                            <NavLink class="nav-link" href="pippette/add">
+                                <span class="oi oi-plus" aria-hidden="true"></span>
+                            </NavLink>
+                        </td>
+                        <td>
+                            <NavLink class="nav-link" href="" @onclick="@(e=> EditRow(e, pippette.SerialNumber))">
+                                <span class="oi oi-pencil" aria-hidden="true"></span>
+                            </NavLink>
+                        </td>
+                        <td>
+                            <NavLink class="nav-link" href="" @onclick="@(e=> DeleteRow(e, pippette.SerialNumber))">
+                                <span class="oi oi-minus" aria-hidden="true"></span>
+                            </NavLink>
+                        </td>
+                    </tr>
                 }
             }
         </tbody>
@@ -50,17 +63,17 @@ else
     protected override async Task OnInitializedAsync()
     {
         pippettes = await PippetteDataService.GetPippettesAsync();
-
     }
 
-    //private async Task<string> GetLocationDetails(PippetteDto pippette)
-    //{
-    //    if(pippette!=null)
-    //    {
-    //        var location = await PippetteDataService.GetPippetteLocationAsync(pippette.SerialNumber);
-    //        return location.Location_Name;
-    //    }
+    private async Task EditRow(MouseEventArgs e, string serialNumber)
+    {
+        var pippetteId = await PippetteDataService.GetPippetteIdAsync(serialNumber);
+        NavigationManager.NavigateTo($"/pippette/edit/{pippetteId}");
+    }
 
-    //    return string.Empty;
-    //}
+    private async Task DeleteRow(MouseEventArgs e, string serialNumber)
+    {
+        var pippetteId = await PippetteDataService.GetPippetteIdAsync(serialNumber);
+        NavigationManager.NavigateTo($"/pippette/delete/{pippetteId}");
+    }
 }

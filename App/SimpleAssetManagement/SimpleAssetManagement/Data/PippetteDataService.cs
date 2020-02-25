@@ -12,6 +12,9 @@ namespace SimpleAssetManagement.Data
     {
         public PippetteDataService(ApplicationDbContext applicationDbContext, IMapper mapper)
         {
+            if (applicationDbContext == null) throw new ArgumentNullException("applicationDbContext");
+            if (mapper == null) throw new ArgumentNullException("mapper");
+
             DBContext = applicationDbContext;
             Mapper = mapper;
         }
@@ -22,24 +25,56 @@ namespace SimpleAssetManagement.Data
         public async Task<List<PippetteDataDto>> GetPippettesAsync()
         {
             var pippetteDataJoin = from p in DBContext.Pippettes
-                                              join m in DBContext.Manufactures
-                                              on p.Manufacture_Id equals m.Manufacture_Id
-                                              join l in DBContext.Locations
-                                              on p.Location_Id equals l.Location_Id
-                                              join u in DBContext.PippetteUsers
-                                              on p.Pippette_User_Id equals u.Pippette_User_Id
-                                              orderby p.SerialNumber
-                                              select new PippetteDataDto()
-                                              {
-                                                  ModelName = p.ModelName,
-                                                  SerialNumber = p.SerialNumber,
-                                                  UsageFrequency = p.UsageFrequency,
-                                                  Location_Name = l.Location_Name,
-                                                  Manufacture_Name = m.Manufacture_Name,
-                                                  Pippette_User_Name = u.Pippette_User_Name
-                                              };
+                                   join m in DBContext.Manufactures
+                                   on p.Manufacture_Id equals m.Manufacture_Id
+                                   join l in DBContext.Locations
+                                   on p.Location_Id equals l.Location_Id
+                                   join u in DBContext.PippetteUsers
+                                   on p.Pippette_User_Id equals u.Pippette_User_Id
+                                   orderby p.SerialNumber
+                                   select new PippetteDataDto()
+                                   {
+                                       ModelName = p.ModelName,
+                                       SerialNumber = p.SerialNumber,
+                                       UsageFrequency = p.UsageFrequency,
+                                       Location_Name = l.Location_Name,
+                                       Manufacture_Name = m.Manufacture_Name,
+                                       Pippette_User_Name = u.Pippette_User_Name
+                                   };
 
             return await pippetteDataJoin.ToListAsync();
+        }
+
+        public async Task<PippetteDataDto> GetPippetteAsync(Guid pippetteId)
+        {
+            if (pippetteId == null) throw new ArgumentNullException("pippetteId");
+
+            var pippetteDataJoin = from p in DBContext.Pippettes
+                                   join m in DBContext.Manufactures
+                                   on p.Manufacture_Id equals m.Manufacture_Id
+                                   join l in DBContext.Locations
+                                   on p.Location_Id equals l.Location_Id
+                                   join u in DBContext.PippetteUsers
+                                   on p.Pippette_User_Id equals u.Pippette_User_Id
+                                   where p.Pippette_Id == pippetteId
+                                   orderby p.SerialNumber
+                                   select new PippetteDataDto()
+                                   {
+                                       ModelName = p.ModelName,
+                                       SerialNumber = p.SerialNumber,
+                                       UsageFrequency = p.UsageFrequency,
+                                       Location_Name = l.Location_Name,
+                                       Manufacture_Name = m.Manufacture_Name,
+                                       Pippette_User_Name = u.Pippette_User_Name
+                                   };
+
+            return await pippetteDataJoin.FirstOrDefaultAsync();
+        }
+
+        public async Task<Guid> GetPippetteIdAsync(string serialNumber)
+        {
+            var pippette = await DBContext.Pippettes.Where(p => p.SerialNumber == serialNumber).FirstOrDefaultAsync();
+            return pippette.Pippette_Id;
         }
 
         public async Task<List<LocationDto>> GetLocationsAsync()
@@ -57,11 +92,11 @@ namespace SimpleAssetManagement.Data
         public async Task<List<ManufactureDto>> GetManufacturesAsync()
         {
             var manufactures = from m in DBContext.Manufactures
-                            orderby m.Manufacture_Name
-                            select new ManufactureDto()
-                            {
-                                Manufacture_Name = m.Manufacture_Name
-                            };
+                               orderby m.Manufacture_Name
+                               select new ManufactureDto()
+                               {
+                                   Manufacture_Name = m.Manufacture_Name
+                               };
 
             return await manufactures.ToListAsync();
         }
@@ -69,17 +104,19 @@ namespace SimpleAssetManagement.Data
         public async Task<List<PippetteUserDto>> GetUsersAsync()
         {
             var users = from u in DBContext.PippetteUsers
-                               orderby u.Pippette_User_Name
-                               select new PippetteUserDto()
-                               {
-                                   Pippette_User_Name = u.Pippette_User_Name
-                               };
+                        orderby u.Pippette_User_Name
+                        select new PippetteUserDto()
+                        {
+                            Pippette_User_Name = u.Pippette_User_Name
+                        };
 
             return await users.ToListAsync();
         }
 
         public async Task AddPippetteAsync(PippetteDataDto pippetteDataDto)
         {
+            if (pippetteDataDto == null) throw new ArgumentNullException("pippetteDataDto");
+
             var manufacture = await DBContext.Manufactures.Where(m => m.Manufacture_Name == pippetteDataDto.Manufacture_Name).FirstOrDefaultAsync();
             var location = await DBContext.Locations.Where(l => l.Location_Name == pippetteDataDto.Location_Name).FirstOrDefaultAsync();
             var user = await DBContext.PippetteUsers.Where(u => u.Pippette_User_Name == pippetteDataDto.Pippette_User_Name).FirstOrDefaultAsync();
@@ -96,6 +133,37 @@ namespace SimpleAssetManagement.Data
             };
 
             await DBContext.Pippettes.AddAsync(pippette);
+            await DBContext.SaveChangesAsync();
+        }
+
+        public async Task UpdatePippetteAsync(Guid pippetteId, PippetteDataDto pippetteDataDto)
+        {
+            if (pippetteId == null) throw new ArgumentNullException("pippetteId");
+            if (pippetteDataDto == null) throw new ArgumentNullException("pippetteDataDto");
+
+            var manufacture = await DBContext.Manufactures.Where(m => m.Manufacture_Name == pippetteDataDto.Manufacture_Name).FirstOrDefaultAsync();
+            var location = await DBContext.Locations.Where(l => l.Location_Name == pippetteDataDto.Location_Name).FirstOrDefaultAsync();
+            var user = await DBContext.PippetteUsers.Where(u => u.Pippette_User_Name == pippetteDataDto.Pippette_User_Name).FirstOrDefaultAsync();
+
+            var pippette = await DBContext.Pippettes.Where(p => p.Pippette_Id == pippetteId).FirstOrDefaultAsync();
+
+            pippette.Manufacture_Id = manufacture.Manufacture_Id;
+            pippette.Location_Id = location.Location_Id;
+            pippette.Pippette_User_Id = user.Pippette_User_Id;
+            pippette.ModelName = pippetteDataDto.ModelName;
+            pippette.SerialNumber = pippetteDataDto.SerialNumber;
+            pippette.UsageFrequency = pippetteDataDto.UsageFrequency;
+
+            DBContext.Pippettes.Attach(pippette);
+            await DBContext.SaveChangesAsync();
+        }
+
+        public async Task DeletePippetteAsync(Guid pippetteId)
+        {
+            if (pippetteId == null) throw new ArgumentNullException("pippetteId");
+
+            var pippette = await DBContext.Pippettes.Where(p => p.Pippette_Id == pippetteId).FirstOrDefaultAsync();
+            DBContext.Pippettes.Remove(pippette);
             await DBContext.SaveChangesAsync();
         }
     }
