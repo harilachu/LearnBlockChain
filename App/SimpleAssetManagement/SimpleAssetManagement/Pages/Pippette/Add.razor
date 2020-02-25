@@ -1,0 +1,91 @@
+﻿@page "/pippette/add"
+@inject PippetteDataService PippetteDataService
+
+<h3>Add</h3>
+
+<EditForm Model="@PippetteDataDto" OnValidSubmit="ValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <p>
+        <label>
+            Model Name:
+            <InputText id="modelname" @bind-Value="PippetteDataDto.ModelName" />
+        </label>
+    </p>
+    <p>
+        <label>
+            Serial Number:
+            <InputText id="serialnumber" @bind-Value="PippetteDataDto.SerialNumber" />
+        </label>
+    </p>
+    <p>
+        <label>
+            Usage Frequency:
+            <InputNumber id="usagefrequency" @bind-Value="PippetteDataDto.UsageFrequency" />
+        </label>
+    </p>
+    <p>
+        <label>
+            Location:
+            <InputSelect id="location" @bind-Value="PippetteDataDto.Location_Name">
+                @if (locations != null)
+                {
+                    @foreach (var l in locations)
+                    {
+                        <option value="@l.Location_Name">@l.Location_Name</option>
+                    }
+                }
+            </InputSelect>
+        </label>
+    </p>
+    <p>
+        <label>
+            Manufacture:
+            <InputSelect id="manufacture" @bind-Value="PippetteDataDto.Manufacture_Name">
+                @if (manufactures != null)
+                {
+                    @foreach (var m in manufactures)
+                    {
+                        <option value="@m.Manufacture_Name">@m.Manufacture_Name</option>
+                    }
+                }
+            </InputSelect>
+        </label>
+    </p>
+    <p>
+        <label>
+            User:
+            <InputSelect id="user" @bind-Value="PippetteDataDto.Pippette_User_Name">
+                @if (users != null)
+                {
+                    @foreach (var u in users)
+                    {
+                        <option value="@u.Pippette_User_Name">@u.Pippette_User_Name</option>
+                    }
+                }
+            </InputSelect>
+        </label>
+    </p>
+
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    PippetteDataDto PippetteDataDto = new PippetteDataDto();
+    List<LocationDto> locations;
+    List<ManufactureDto> manufactures;
+    List<PippetteUserDto> users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        locations = await PippetteDataService.GetLocationsAsync();
+        manufactures = await PippetteDataService.GetManufacturesAsync();
+        users = await PippetteDataService.GetUsersAsync();
+    }
+
+    private void ValidSubmit()
+    {
+
+    }
+}

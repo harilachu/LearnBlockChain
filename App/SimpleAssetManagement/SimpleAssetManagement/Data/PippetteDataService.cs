@@ -41,5 +41,41 @@ namespace SimpleAssetManagement.Data
 
             return await pippetteDataJoin.ToListAsync();
         }
+
+        public async Task<List<LocationDto>> GetLocationsAsync()
+        {
+            var locations = from l in DBContext.Locations
+                            orderby l.Location_Name
+                            select new LocationDto()
+                            {
+                                Location_Name = l.Location_Name
+                            };
+
+            return await locations.ToListAsync();
+        }
+
+        public async Task<List<ManufactureDto>> GetManufacturesAsync()
+        {
+            var manufactures = from m in DBContext.Manufactures
+                            orderby m.Manufacture_Name
+                            select new ManufactureDto()
+                            {
+                                Manufacture_Name = m.Manufacture_Name
+                            };
+
+            return await manufactures.ToListAsync();
+        }
+
+        public async Task<List<PippetteUserDto>> GetUsersAsync()
+        {
+            var users = from u in DBContext.PippetteUsers
+                               orderby u.Pippette_User_Name
+                               select new PippetteUserDto()
+                               {
+                                   Pippette_User_Name = u.Pippette_User_Name
+                               };
+
+            return await users.ToListAsync();
+        }
     }
 }

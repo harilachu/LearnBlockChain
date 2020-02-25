@@ -10,8 +10,8 @@ using SimpleAssetManagement.Data;
 namespace SimpleAssetManagement.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200224130921_PippeteInitialCreate")]
-    partial class PippeteInitialCreate
+    [Migration("20200225055210_PippetteInitialCreate")]
+    partial class PippetteInitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -259,6 +259,18 @@ namespace SimpleAssetManagement.Data.Migrations
                     b.HasKey("Location_Id");
 
                     b.ToTable("Locations");
+
+                    b.HasData(
+                        new
+                        {
+                            Location_Id = new Guid("ea9967dc-fd31-4add-97c2-e499d92079bb"),
+                            Location_Name = "R&D"
+                        },
+                        new
+                        {
+                            Location_Id = new Guid("696a03e9-ae8d-46a5-918f-2e4c19cecfd3"),
+                            Location_Name = "LAB"
+                        });
                 });
 
             modelBuilder.Entity("SimpleAssetManagement.Data.Manufacture", b =>
@@ -273,6 +285,18 @@ namespace SimpleAssetManagement.Data.Migrations
                     b.HasKey("Manufacture_Id");
 
                     b.ToTable("Manufactures");
+
+                    b.HasData(
+                        new
+                        {
+                            Manufacture_Id = new Guid("ca3bdc52-7a1a-4e72-b915-d35eca13666e"),
+                            Manufacture_Name = "RAININ"
+                        },
+                        new
+                        {
+                            Manufacture_Id = new Guid("33e11f97-1705-466f-8f9d-9773d33aed8f"),
+                            Manufacture_Name = "METTLER TOLEDO"
+                        });
                 });
 
             modelBuilder.Entity("SimpleAssetManagement.Data.Pippette", b =>
@@ -311,6 +335,48 @@ namespace SimpleAssetManagement.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Pippettes");
+
+                    b.HasData(
+                        new
+                        {
+                            Pippette_Id = new Guid("6cc85b91-b368-4aaf-98b4-2693e3643789"),
+                            Location_Id = new Guid("ea9967dc-fd31-4add-97c2-e499d92079bb"),
+                            Manufacture_Id = new Guid("ca3bdc52-7a1a-4e72-b915-d35eca13666e"),
+                            ModelName = "P2020",
+                            Pippette_User_Id = new Guid("ae30e17e-0a0e-4b9c-a6dc-7e442a6caecc"),
+                            SerialNumber = "P2020-FEB",
+                            UsageFrequency = 10
+                        },
+                        new
+                        {
+                            Pippette_Id = new Guid("83f3e70e-5ba9-40bc-8b63-5764513d2fc7"),
+                            Location_Id = new Guid("696a03e9-ae8d-46a5-918f-2e4c19cecfd3"),
+                            Manufacture_Id = new Guid("33e11f97-1705-466f-8f9d-9773d33aed8f"),
+                            ModelName = "L2020",
+                            Pippette_User_Id = new Guid("293d98bb-420b-4416-b5f0-7f6647e4548f"),
+                            SerialNumber = "L2020-MAR",
+                            UsageFrequency = 20
+                        },
+                        new
+                        {
+                            Pippette_Id = new Guid("af5fe0c7-4a58-46e6-90c9-2feaf7238c90"),
+                            Location_Id = new Guid("696a03e9-ae8d-46a5-918f-2e4c19cecfd3"),
+                            Manufacture_Id = new Guid("ca3bdc52-7a1a-4e72-b915-d35eca13666e"),
+                            ModelName = "P2019",
+                            Pippette_User_Id = new Guid("ae30e17e-0a0e-4b9c-a6dc-7e442a6caecc"),
+                            SerialNumber = "P2019-MAR",
+                            UsageFrequency = 510
+                        },
+                        new
+                        {
+                            Pippette_Id = new Guid("32841a73-7cae-43c1-8f17-b17711de6caf"),
+                            Location_Id = new Guid("ea9967dc-fd31-4add-97c2-e499d92079bb"),
+                            Manufacture_Id = new Guid("33e11f97-1705-466f-8f9d-9773d33aed8f"),
+                            ModelName = "L2019",
+                            Pippette_User_Id = new Guid("293d98bb-420b-4416-b5f0-7f6647e4548f"),
+                            SerialNumber = "L2019-FEB",
+                            UsageFrequency = 320
+                        });
                 });
 
             modelBuilder.Entity("SimpleAssetManagement.Data.PippetteUser", b =>
@@ -325,6 +391,18 @@ namespace SimpleAssetManagement.Data.Migrations
                     b.HasKey("Pippette_User_Id");
 
                     b.ToTable("PippetteUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Pippette_User_Id = new Guid("ae30e17e-0a0e-4b9c-a6dc-7e442a6caecc"),
+                            Pippette_User_Name = "Alex"
+                        },
+                        new
+                        {
+                            Pippette_User_Id = new Guid("293d98bb-420b-4416-b5f0-7f6647e4548f"),
+                            Pippette_User_Name = "Joe"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

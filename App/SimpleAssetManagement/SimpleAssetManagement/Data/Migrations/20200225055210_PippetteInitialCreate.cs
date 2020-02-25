@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SimpleAssetManagement.Data.Migrations
 {
-    public partial class PippeteInitialCreate : Migration
+    public partial class PippetteInitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -93,6 +93,43 @@ namespace SimpleAssetManagement.Data.Migrations
                         principalColumn: "Pippette_User_Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Locations",
+                columns: new[] { "Location_Id", "Location_Name" },
+                values: new object[,]
+                {
+                    { new Guid("ea9967dc-fd31-4add-97c2-e499d92079bb"), "R&D" },
+                    { new Guid("696a03e9-ae8d-46a5-918f-2e4c19cecfd3"), "LAB" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Manufactures",
+                columns: new[] { "Manufacture_Id", "Manufacture_Name" },
+                values: new object[,]
+                {
+                    { new Guid("ca3bdc52-7a1a-4e72-b915-d35eca13666e"), "RAININ" },
+                    { new Guid("33e11f97-1705-466f-8f9d-9773d33aed8f"), "METTLER TOLEDO" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "PippetteUsers",
+                columns: new[] { "Pippette_User_Id", "Pippette_User_Name" },
+                values: new object[,]
+                {
+                    { new Guid("ae30e17e-0a0e-4b9c-a6dc-7e442a6caecc"), "Alex" },
+                    { new Guid("293d98bb-420b-4416-b5f0-7f6647e4548f"), "Joe" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Pippettes",
+                columns: new[] { "Pippette_Id", "Location_Id", "Manufacture_Id", "ModelName", "Pippette_User_Id", "SerialNumber", "UsageFrequency" },
+                values: new object[] { new Guid("af5fe0c7-4a58-46e6-90c9-2feaf7238c90"), new Guid("696a03e9-ae8d-46a5-918f-2e4c19cecfd3"), new Guid("ca3bdc52-7a1a-4e72-b915-d35eca13666e"), "P2019", new Guid("ae30e17e-0a0e-4b9c-a6dc-7e442a6caecc"), "P2019-MAR", 510 });
+
+            migrationBuilder.InsertData(
+                table: "Pippettes",
+                columns: new[] { "Pippette_Id", "Location_Id", "Manufacture_Id", "ModelName", "Pippette_User_Id", "SerialNumber", "UsageFrequency" },
+                values: new object[] { new Guid("32841a73-7cae-43c1-8f17-b17711de6caf"), new Guid("ea9967dc-fd31-4add-97c2-e499d92079bb"), new Guid("33e11f97-1705-466f-8f9d-9773d33aed8f"), "L2019", new Guid("293d98bb-420b-4416-b5f0-7f6647e4548f"), "L2019-FEB", 320 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pippettes_Location_Id",
