@@ -11,7 +11,6 @@ namespace SimpleAssetManagement.Data
         public PippetteProfile()
         {
             this.CreateMap<Pippette, PippetteDto>()
-                .ForMember(pd=> pd.Location_Name, p=> p.Ignore())
                 .ReverseMap()
                 .ForMember(p => p.Pippette_Id, pd => pd.UseDestinationValue())
                 .ForMember(p => p.Manufacture_Id, pd => pd.UseDestinationValue())

@@ -19,25 +19,27 @@ namespace SimpleAssetManagement.Data
         public ApplicationDbContext DBContext { get; }
         public IMapper Mapper { get; }
 
-        public async Task<List<PippetteDto>> GetPippettesAsync()
+        public async Task<List<PippetteDataDto>> GetPippettesAsync()
         {
-            //var pippettes = await DBContext.Pippettes.ToListAsync();
-            var pippetteLocationJoin = await DBContext.Pippettes.Join(DBContext.Locations, p => p.Location_Id, l => l.Pippette.Location_Id,
-                (p, l) => new PippetteDto() {
-                    ModelName = p.ModelName,
-                    SerialNumber = p.SerialNumber,
-                    UsageFrequency = p.UsageFrequency,
-                    Location_Name = l.Location_Name
-                }).ToListAsync();
+            var pippetteDataJoin = from p in DBContext.Pippettes
+                                              join m in DBContext.Manufactures
+                                              on p.Manufacture_Id equals m.Manufacture_Id
+                                              join l in DBContext.Locations
+                                              on p.Location_Id equals l.Location_Id
+                                              join u in DBContext.PippetteUsers
+                                              on p.Pippette_User_Id equals u.Pippette_User_Id
+                                              orderby p.SerialNumber
+                                              select new PippetteDataDto()
+                                              {
+                                                  ModelName = p.ModelName,
+                                                  SerialNumber = p.SerialNumber,
+                                                  UsageFrequency = p.UsageFrequency,
+                                                  Location_Name = l.Location_Name,
+                                                  Manufacture_Name = m.Manufacture_Name,
+                                                  Pippette_User_Name = u.Pippette_User_Name
+                                              };
 
-            return pippetteLocationJoin.ToList();
-        }
-
-        public async Task<LocationDto> GetPippetteLocationAsync(string serialNumber)
-        {
-            var pippette = await DBContext.Pippettes.Where(p => p.SerialNumber == serialNumber).SingleOrDefaultAsync();
-            var location = await DBContext.Locations.Where(l => l.Location_Id == pippette.Location_Id).SingleOrDefaultAsync();
-            return Mapper.Map<LocationDto>(location);
+            return await pippetteDataJoin.ToListAsync();
         }
     }
 }

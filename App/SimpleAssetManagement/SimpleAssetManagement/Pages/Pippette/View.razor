@@ -17,24 +17,28 @@ else
                 <th>Serial Number</th>
                 <th>Usage Frequency</th>
                 <th>Location</th>
+                <th>Manufacture</th>
+                <th>User</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var pippette in pippettes)
             {
-                <tr>
-                    <td>@pippette.ModelName</td>
-                    <td>@pippette.SerialNumber</td>
-                    <td>@pippette.UsageFrequency</td>
-                    <td>@pippette.Location_Name</td>
-                </tr>
+            <tr>
+                <td>@pippette.ModelName</td>
+                <td>@pippette.SerialNumber</td>
+                <td>@pippette.UsageFrequency</td>
+                <td>@pippette.Location_Name</td>
+                <td>@pippette.Manufacture_Name</td>
+                <td>@pippette.Pippette_User_Name</td>
+            </tr>
             }
         </tbody>
     </table>
 }
 
 @code {
-    private List<PippetteDto> pippettes;
+    private List<PippetteDataDto> pippettes;
 
     protected override async Task OnInitializedAsync()
     {
