@@ -1,5 +1,6 @@
 ﻿@page "/pippette/add"
 @inject PippetteDataService PippetteDataService
+@inject NavigationManager NavigationManager
 
 <h3>Add</h3>
 
@@ -7,25 +8,25 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <p>
+    <div>
         <label>
             Model Name:
             <InputText id="modelname" @bind-Value="PippetteDataDto.ModelName" />
         </label>
-    </p>
-    <p>
+    </div>
+    <div>
         <label>
             Serial Number:
             <InputText id="serialnumber" @bind-Value="PippetteDataDto.SerialNumber" />
         </label>
-    </p>
-    <p>
+    </div>
+    <div>
         <label>
             Usage Frequency:
             <InputNumber id="usagefrequency" @bind-Value="PippetteDataDto.UsageFrequency" />
         </label>
-    </p>
-    <p>
+    </div>
+    <div>
         <label>
             Location:
             <InputSelect id="location" @bind-Value="PippetteDataDto.Location_Name">
@@ -38,8 +39,8 @@
                 }
             </InputSelect>
         </label>
-    </p>
-    <p>
+    </div>
+    <div>
         <label>
             Manufacture:
             <InputSelect id="manufacture" @bind-Value="PippetteDataDto.Manufacture_Name">
@@ -52,8 +53,8 @@
                 }
             </InputSelect>
         </label>
-    </p>
-    <p>
+    </div>
+    <div>
         <label>
             User:
             <InputSelect id="user" @bind-Value="PippetteDataDto.Pippette_User_Name">
@@ -66,7 +67,7 @@
                 }
             </InputSelect>
         </label>
-    </p>
+    </div>
 
     <button type="submit">Submit</button>
 </EditForm>
@@ -84,8 +85,9 @@
         users = await PippetteDataService.GetUsersAsync();
     }
 
-    private void ValidSubmit()
+    private async Task ValidSubmit()
     {
-
+        await PippetteDataService.AddPippetteAsync(PippetteDataDto);
+        NavigationManager.NavigateTo("/pippette/view");
     }
 }

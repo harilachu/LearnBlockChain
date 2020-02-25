@@ -12,19 +12,19 @@ namespace SimpleAssetManagement.Data
         [Key]
         public Guid Pippette_Id { get; set; }
 
+        [ForeignKey("Manufacture_Id")]
         public Manufacture Manufacture { get; set; }
 
-        [ForeignKey("Manufacture")]
         public Guid Manufacture_Id { get; set; }
 
+        [ForeignKey("Pippette_User_Id")]
         public PippetteUser PippetteUser { get; set; }
 
-        [ForeignKey("PippetteUser")]
         public Guid Pippette_User_Id { get; set; }
-
+        
+        [ForeignKey("Location_Id")]
         public Location Location { get; set; }
 
-        [ForeignKey("Location")]
         public Guid Location_Id { get; set; }
 
         public string ModelName { get; set; }

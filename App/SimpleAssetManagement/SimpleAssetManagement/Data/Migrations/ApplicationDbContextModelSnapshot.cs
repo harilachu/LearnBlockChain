@@ -323,21 +323,18 @@ namespace SimpleAssetManagement.Data.Migrations
 
                     b.HasKey("Pippette_Id");
 
-                    b.HasIndex("Location_Id")
-                        .IsUnique();
+                    b.HasIndex("Location_Id");
 
-                    b.HasIndex("Manufacture_Id")
-                        .IsUnique();
+                    b.HasIndex("Manufacture_Id");
 
-                    b.HasIndex("Pippette_User_Id")
-                        .IsUnique();
+                    b.HasIndex("Pippette_User_Id");
 
                     b.ToTable("Pippettes");
 
                     b.HasData(
                         new
                         {
-                            Pippette_Id = new Guid("6cc85b91-b368-4aaf-98b4-2693e3643789"),
+                            Pippette_Id = new Guid("eb68664c-6205-4d3f-8bfa-9f013950d4a2"),
                             Location_Id = new Guid("ea9967dc-fd31-4add-97c2-e499d92079bb"),
                             Manufacture_Id = new Guid("ca3bdc52-7a1a-4e72-b915-d35eca13666e"),
                             ModelName = "P2020",
@@ -347,7 +344,7 @@ namespace SimpleAssetManagement.Data.Migrations
                         },
                         new
                         {
-                            Pippette_Id = new Guid("83f3e70e-5ba9-40bc-8b63-5764513d2fc7"),
+                            Pippette_Id = new Guid("0899f922-885a-4430-bf49-12d298a34dfb"),
                             Location_Id = new Guid("696a03e9-ae8d-46a5-918f-2e4c19cecfd3"),
                             Manufacture_Id = new Guid("33e11f97-1705-466f-8f9d-9773d33aed8f"),
                             ModelName = "L2020",
@@ -357,7 +354,7 @@ namespace SimpleAssetManagement.Data.Migrations
                         },
                         new
                         {
-                            Pippette_Id = new Guid("af5fe0c7-4a58-46e6-90c9-2feaf7238c90"),
+                            Pippette_Id = new Guid("c5b3bd62-3e24-441d-a8d9-72cf23ddbf9c"),
                             Location_Id = new Guid("696a03e9-ae8d-46a5-918f-2e4c19cecfd3"),
                             Manufacture_Id = new Guid("ca3bdc52-7a1a-4e72-b915-d35eca13666e"),
                             ModelName = "P2019",
@@ -367,7 +364,7 @@ namespace SimpleAssetManagement.Data.Migrations
                         },
                         new
                         {
-                            Pippette_Id = new Guid("32841a73-7cae-43c1-8f17-b17711de6caf"),
+                            Pippette_Id = new Guid("d9c29b6e-bf6f-4e59-a365-85f3bfeade0e"),
                             Location_Id = new Guid("ea9967dc-fd31-4add-97c2-e499d92079bb"),
                             Manufacture_Id = new Guid("33e11f97-1705-466f-8f9d-9773d33aed8f"),
                             ModelName = "L2019",
@@ -457,20 +454,20 @@ namespace SimpleAssetManagement.Data.Migrations
             modelBuilder.Entity("SimpleAssetManagement.Data.Pippette", b =>
                 {
                     b.HasOne("SimpleAssetManagement.Data.Location", "Location")
-                        .WithOne("Pippette")
-                        .HasForeignKey("SimpleAssetManagement.Data.Pippette", "Location_Id")
+                        .WithMany("Pippette")
+                        .HasForeignKey("Location_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SimpleAssetManagement.Data.Manufacture", "Manufacture")
-                        .WithOne("Pippette")
-                        .HasForeignKey("SimpleAssetManagement.Data.Pippette", "Manufacture_Id")
+                        .WithMany("Pippette")
+                        .HasForeignKey("Manufacture_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SimpleAssetManagement.Data.PippetteUser", "PippetteUser")
-                        .WithOne("Pippette")
-                        .HasForeignKey("SimpleAssetManagement.Data.Pippette", "Pippette_User_Id")
+                        .WithMany("Pippette")
+                        .HasForeignKey("Pippette_User_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -13,6 +13,6 @@ namespace SimpleAssetManagement.Data
 
         public string Manufacture_Name { get; set; }
 
-        public Pippette Pippette { get; set; }
+        public ICollection<Pippette> Pippette { get; set; }
     }
 }

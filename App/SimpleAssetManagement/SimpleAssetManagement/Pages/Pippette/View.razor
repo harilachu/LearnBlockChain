@@ -21,16 +21,24 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var pippette in pippettes)
+            @if (pippettes != null)
             {
-            <tr>
-                <td>@pippette.ModelName</td>
-                <td>@pippette.SerialNumber</td>
-                <td>@pippette.UsageFrequency</td>
-                <td>@pippette.Location_Name</td>
-                <td>@pippette.Manufacture_Name</td>
-                <td>@pippette.Pippette_User_Name</td>
-            </tr>
+                @foreach (var pippette in pippettes)
+                {
+                <tr>
+                    <td>@pippette.ModelName</td>
+                    <td>@pippette.SerialNumber</td>
+                    <td>@pippette.UsageFrequency</td>
+                    <td>@pippette.Location_Name</td>
+                    <td>@pippette.Manufacture_Name</td>
+                    <td>@pippette.Pippette_User_Name</td>
+                    <td>
+                        <NavLink class="nav-link" href="pippette/add">
+                            <span class="oi oi-plus" aria-hidden="true"></span>
+                        </NavLink>
+                    </td>
+                </tr>
+                }
             }
         </tbody>
     </table>

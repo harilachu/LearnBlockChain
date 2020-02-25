@@ -124,30 +124,28 @@ namespace SimpleAssetManagement.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Pippettes",
                 columns: new[] { "Pippette_Id", "Location_Id", "Manufacture_Id", "ModelName", "Pippette_User_Id", "SerialNumber", "UsageFrequency" },
-                values: new object[] { new Guid("af5fe0c7-4a58-46e6-90c9-2feaf7238c90"), new Guid("696a03e9-ae8d-46a5-918f-2e4c19cecfd3"), new Guid("ca3bdc52-7a1a-4e72-b915-d35eca13666e"), "P2019", new Guid("ae30e17e-0a0e-4b9c-a6dc-7e442a6caecc"), "P2019-MAR", 510 });
-
-            migrationBuilder.InsertData(
-                table: "Pippettes",
-                columns: new[] { "Pippette_Id", "Location_Id", "Manufacture_Id", "ModelName", "Pippette_User_Id", "SerialNumber", "UsageFrequency" },
-                values: new object[] { new Guid("32841a73-7cae-43c1-8f17-b17711de6caf"), new Guid("ea9967dc-fd31-4add-97c2-e499d92079bb"), new Guid("33e11f97-1705-466f-8f9d-9773d33aed8f"), "L2019", new Guid("293d98bb-420b-4416-b5f0-7f6647e4548f"), "L2019-FEB", 320 });
+                values: new object[,]
+                {
+                    { new Guid("eb68664c-6205-4d3f-8bfa-9f013950d4a2"), new Guid("ea9967dc-fd31-4add-97c2-e499d92079bb"), new Guid("ca3bdc52-7a1a-4e72-b915-d35eca13666e"), "P2020", new Guid("ae30e17e-0a0e-4b9c-a6dc-7e442a6caecc"), "P2020-FEB", 10 },
+                    { new Guid("c5b3bd62-3e24-441d-a8d9-72cf23ddbf9c"), new Guid("696a03e9-ae8d-46a5-918f-2e4c19cecfd3"), new Guid("ca3bdc52-7a1a-4e72-b915-d35eca13666e"), "P2019", new Guid("ae30e17e-0a0e-4b9c-a6dc-7e442a6caecc"), "P2019-MAR", 510 },
+                    { new Guid("0899f922-885a-4430-bf49-12d298a34dfb"), new Guid("696a03e9-ae8d-46a5-918f-2e4c19cecfd3"), new Guid("33e11f97-1705-466f-8f9d-9773d33aed8f"), "L2020", new Guid("293d98bb-420b-4416-b5f0-7f6647e4548f"), "L2020-MAR", 20 },
+                    { new Guid("d9c29b6e-bf6f-4e59-a365-85f3bfeade0e"), new Guid("ea9967dc-fd31-4add-97c2-e499d92079bb"), new Guid("33e11f97-1705-466f-8f9d-9773d33aed8f"), "L2019", new Guid("293d98bb-420b-4416-b5f0-7f6647e4548f"), "L2019-FEB", 320 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pippettes_Location_Id",
                 table: "Pippettes",
-                column: "Location_Id",
-                unique: true);
+                column: "Location_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pippettes_Manufacture_Id",
                 table: "Pippettes",
-                column: "Manufacture_Id",
-                unique: true);
+                column: "Manufacture_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pippettes_Pippette_User_Id",
                 table: "Pippettes",
-                column: "Pippette_User_Id",
-                unique: true);
+                column: "Pippette_User_Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

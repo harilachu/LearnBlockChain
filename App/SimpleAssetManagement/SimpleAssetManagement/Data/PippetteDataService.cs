@@ -77,5 +77,26 @@ namespace SimpleAssetManagement.Data
 
             return await users.ToListAsync();
         }
+
+        public async Task AddPippetteAsync(PippetteDataDto pippetteDataDto)
+        {
+            var manufacture = await DBContext.Manufactures.Where(m => m.Manufacture_Name == pippetteDataDto.Manufacture_Name).FirstOrDefaultAsync();
+            var location = await DBContext.Locations.Where(l => l.Location_Name == pippetteDataDto.Location_Name).FirstOrDefaultAsync();
+            var user = await DBContext.PippetteUsers.Where(u => u.Pippette_User_Name == pippetteDataDto.Pippette_User_Name).FirstOrDefaultAsync();
+
+            var pippette = new Pippette()
+            {
+                Pippette_Id = Guid.NewGuid(),
+                Manufacture_Id = manufacture.Manufacture_Id,
+                Location_Id = location.Location_Id,
+                Pippette_User_Id = user.Pippette_User_Id,
+                ModelName = pippetteDataDto.ModelName,
+                SerialNumber = pippetteDataDto.SerialNumber,
+                UsageFrequency = pippetteDataDto.UsageFrequency
+            };
+
+            await DBContext.Pippettes.AddAsync(pippette);
+            await DBContext.SaveChangesAsync();
+        }
     }
 }
