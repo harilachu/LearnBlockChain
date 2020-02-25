@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "unpkg",
+  "libraries": [
+    {
+      "library": "web3@1.2.6",
+      "destination": "wwwroot/web3/"
+    },
+    {
+      "library": "net@1.0.2",
+      "destination": "wwwroot/net/"
+    }
+  ]
+}

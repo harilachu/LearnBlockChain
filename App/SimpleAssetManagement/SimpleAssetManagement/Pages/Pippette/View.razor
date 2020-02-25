@@ -1,6 +1,7 @@
 ﻿@page "/pippette/View"
 @inject PippetteDataService PippetteDataService
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 
 <div class="modal-header">
     <h3>View Pippettes</h3>
@@ -57,6 +58,10 @@ else
     </table>
 }
 
+<div class="modal-content">
+    <button type="button" @onclick="@FetchAuditLogs">FetchLogs</button>
+</div>
+
 @code {
     private List<PippetteDataDto> pippettes;
 
@@ -75,5 +80,10 @@ else
     {
         var pippetteId = await PippetteDataService.GetPippetteIdAsync(serialNumber);
         NavigationManager.NavigateTo($"/pippette/delete/{pippetteId}");
+    }
+
+    private async Task FetchAuditLogs()
+    {
+        var logs = await JSRuntime.InvokeAsync<object>("FetchLogs", "1");
     }
 }
