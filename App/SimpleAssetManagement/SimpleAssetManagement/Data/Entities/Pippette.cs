@@ -32,5 +32,10 @@ namespace SimpleAssetManagement.Data
         public string SerialNumber { get; set; }
 
         public int UsageFrequency { get; set; }
+
+        public override string ToString()
+        {
+            return $"M: {ModelName}, SNO: {SerialNumber}, UF: {UsageFrequency}, L: {Location.Location_Name}, M: {Manufacture.Manufacture_Name}, U: {PippetteUser.Pippette_User_Name}";
+        }
     }
 }

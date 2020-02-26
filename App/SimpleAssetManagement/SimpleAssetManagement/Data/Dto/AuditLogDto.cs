@@ -8,11 +8,11 @@ namespace SimpleAssetManagement.Data
 {
     public class AuditLogDto
     {
-        public DateTime DateTimeStamp { get; set; }
+        public string DateTimeStamp { get; set; }
 
         public string User { get; set; }
 
-        public EnumChange Change { get; set; }
+        public string Change { get; set; }
 
         public string OldValue { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿@page "/pippette/View"
+
 @inject PippetteDataService PippetteDataService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
@@ -84,6 +85,14 @@ else
 
     private async Task FetchAuditLogs()
     {
-        var logs = await JSRuntime.InvokeAsync<object>("FetchLogs", "1");
+        var logs = await JSRuntime.InvokeAsync<object>("FetchLogs", "0");
+        var auditlog = JsonSerializer.Deserialize<Dictionary<string,object>>(logs.ToString());
+
+        var datetimestamp = auditlog["datetimestamp"];
+        var user = auditlog["user"];
+        var change = auditlog["change"];
+        var oldvalue = auditlog["oldvalue"];
+        var newvalue = auditlog["newvalue"];
+        
     }
 }
