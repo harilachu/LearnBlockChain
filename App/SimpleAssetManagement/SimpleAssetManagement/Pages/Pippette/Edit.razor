@@ -2,89 +2,97 @@
 @inject PippetteDataService PippetteDataService
 @inject NavigationManager NavigationManager
 
-<div class="modal-header">
-    <h3>Edit Pippette</h3>
-</div>
+<AuthorizeView Context="authContext">
+    <Authorized>
+        <div class="modal-header">
+            <h3>Edit Pippette</h3>
+        </div>
 
-<div class="modal-body">
-    <EditForm Model="@PippetteDataDto" OnValidSubmit="ValidSubmit">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
+        <div class="modal-body">
+            <EditForm Context="formContext" Model="@PippetteDataDto" OnValidSubmit="ValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
 
-        <div class="form-group row">
-            <label class="col-3 col-form-label">
-                Model Name:
-            </label>
-            <InputText class="col-8 form-control" id="modelname" @bind-Value="PippetteDataDto.ModelName" />
-            
+                <div class="form-group row">
+                    <label class="col-3 col-form-label">
+                        Model Name:
+                    </label>
+                    <InputText class="col-8 form-control" id="modelname" @bind-Value="PippetteDataDto.ModelName" />
+
+                </div>
+                <div class="form-group row">
+                    <label class="col-3 col-form-label">
+                        Serial Number:
+                    </label>
+                    <InputText class="col-8 form-control" id="serialnumber" @bind-Value="PippetteDataDto.SerialNumber" />
+                </div>
+                <div class="form-group row">
+                    <label class="col-3 col-form-label">
+                        Usage Frequency:
+                    </label>
+                    <InputNumber class="col-8 form-control" id="usagefrequency" @bind-Value="PippetteDataDto.UsageFrequency" />
+                </div>
+                <div class="form-group row">
+                    <label class="col-3 col-form-label">
+                        Location:
+                    </label>
+                    <InputSelect class="col-8 form-control" id="location" @bind-Value="PippetteDataDto.Location_Name">
+                        @if (Locations != null)
+                        {
+                            @foreach (var l in Locations)
+                            {
+                                <option value="@l.Location_Name">@l.Location_Name</option>
+                            }
+                        }
+                    </InputSelect>
+                </div>
+                <div class="form-group row">
+                    <label class="col-3 col-form-label">
+                        Manufacture:
+                    </label>
+                    <InputSelect class="col-8 form-control" id="manufacture" @bind-Value="PippetteDataDto.Manufacture_Name">
+                        @if (Manufactures != null)
+                        {
+                            @foreach (var m in Manufactures)
+                            {
+                                <option value="@m.Manufacture_Name">@m.Manufacture_Name</option>
+                            }
+                        }
+                    </InputSelect>
+                </div>
+                <div class="form-group row">
+                    <label class="col-3 col-form-label">
+                        User:
+                    </label>
+                    <InputSelect class="col-8 form-control" id="user" @bind-Value="PippetteDataDto.Pippette_User_Name">
+                        @if (Users != null)
+                        {
+                            @foreach (var u in Users)
+                            {
+                                <option value="@u.Pippette_User_Name">@u.Pippette_User_Name</option>
+                            }
+                        }
+                    </InputSelect>
+                </div>
+                <br />
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                    <button class="btn btn-secondary" type="button" @onclick="@(e=> Cancel(e))">Cancel</button>
+                </div>
+            </EditForm>
         </div>
-        <div class="form-group row">
-            <label class="col-3 col-form-label">
-                Serial Number:
-            </label>
-            <InputText class="col-8 form-control" id="serialnumber" @bind-Value="PippetteDataDto.SerialNumber" />
-        </div>
-        <div class="form-group row">
-            <label class="col-3 col-form-label">
-                Usage Frequency:
-            </label>
-            <InputNumber class="col-8 form-control" id="usagefrequency" @bind-Value="PippetteDataDto.UsageFrequency" />
-        </div>
-        <div class="form-group row">
-            <label class="col-3 col-form-label">
-                Location:
-            </label>
-            <InputSelect class="col-8 form-control"  id="location" @bind-Value="PippetteDataDto.Location_Name">
-                @if (Locations != null)
-                {
-                    @foreach (var l in Locations)
-                    {
-                        <option value="@l.Location_Name">@l.Location_Name</option>
-                    }
-                }
-            </InputSelect>
-        </div>
-        <div class="form-group row">
-            <label class="col-3 col-form-label">
-                Manufacture:
-            </label>
-            <InputSelect class="col-8 form-control" id="manufacture" @bind-Value="PippetteDataDto.Manufacture_Name">
-                @if (Manufactures != null)
-                {
-                    @foreach (var m in Manufactures)
-                    {
-                        <option value="@m.Manufacture_Name">@m.Manufacture_Name</option>
-                    }
-                }
-            </InputSelect>
-        </div>
-        <div class="form-group row">
-            <label class="col-3 col-form-label">
-                User:
-            </label>
-            <InputSelect class="col-8 form-control" id="user" @bind-Value="PippetteDataDto.Pippette_User_Name">
-                @if (Users != null)
-                {
-                    @foreach (var u in Users)
-                    {
-                        <option value="@u.Pippette_User_Name">@u.Pippette_User_Name</option>
-                    }
-                }
-            </InputSelect>
-        </div>
-        <br />
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="submit">Submit</button>
-            <button class="btn btn-secondary" type="button" @onclick="@(e=> Cancel(e))">Cancel</button>
-        </div>
-    </EditForm>
-</div>
+    </Authorized>
+    <NotAuthorized>
+        <h1 align="center" style="color:crimson">You are not authorized to edit the pippette! Please Authenticate.</h1>
+    </NotAuthorized>
+</AuthorizeView>
+
 @code {
     PippetteDataDto PippetteDataDto { get; set; } = new PippetteDataDto();
     List<LocationDto> Locations { get; set; }
     List<ManufactureDto> Manufactures { get; set; }
     List<PippetteUserDto> Users { get; set; }
-    
+
     [Parameter]
     public Guid Id { get; set; }
 
@@ -104,7 +112,7 @@
         NavigationManager.NavigateTo("/pippette/view");
     }
 
-     private void Cancel(MouseEventArgs e)
+    private void Cancel(MouseEventArgs e)
     {
         NavigationManager.NavigateTo("/pippette/view");
     }

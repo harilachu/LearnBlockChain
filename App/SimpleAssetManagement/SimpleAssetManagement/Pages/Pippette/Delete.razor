@@ -2,36 +2,42 @@
 @inject PippetteDataService PippetteDataService
 @inject NavigationManager NavigationManager
 
-<div class="modal-header">
-    <h3>Deleting Pippette</h3>
-</div>
+<AuthorizeView Context="authContext">
+    <Authorized>
+        <div class="modal-header">
+            <h3>Deleting Pippette</h3>
+        </div>
 
-<div class="modal-body">
-    <h4>Please confirm to delete the pippette.</h4> <br/>
-    
-    <div class="form-group row">
-        <label class="col-3 col-form-label">
-            Model Name:
-        </label>
-        <label class="col-8 col-form-label" id="modelname">
-            @PippetteDataDto.ModelName
-        </label>
+        <div Context="formContext" class="modal-body">
+            <h4>Please confirm to delete the pippette.</h4> <br />
 
-        <label class="col-3 col-form-label">
-            Serial Number:
-        </label>
-        <label class="col-8 col-form-label" id="serialnumber">
-            @PippetteDataDto.SerialNumber
-        </label>
-    </div>
-    <br/>
+            <div class="form-group row">
+                <label class="col-3 col-form-label">
+                    Model Name:
+                </label>
+                <label class="col-8 col-form-label" id="modelname">
+                    @PippetteDataDto.ModelName
+                </label>
 
-    <div class="modal-footer">
-        <button class="btn btn-primary" @onclick="@(e=> OK(e))">OK</button>
-        <button class="btn btn-secondary" @onclick="@(e=> Cancel(e))">Cancel</button>
-    </div>
-</div>
+                <label class="col-3 col-form-label">
+                    Serial Number:
+                </label>
+                <label class="col-8 col-form-label" id="serialnumber">
+                    @PippetteDataDto.SerialNumber
+                </label>
+            </div>
+            <br />
 
+            <div class="modal-footer">
+                <button class="btn btn-primary" @onclick="@(e=> OK(e))">OK</button>
+                <button class="btn btn-secondary" @onclick="@(e=> Cancel(e))">Cancel</button>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <h1 align="center" style="color:crimson">You are not authorized to delete the pippette! Please Authenticate.</h1>
+    </NotAuthorized>
+</AuthorizeView>
 
 
 @code {
