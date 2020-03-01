@@ -1,6 +1,6 @@
 # LearnBlockChain
 
-![Ethereum](/eth2.jpg?raw=true "Title")
+<div> <img src="./eth2.jpg" class="img-responsive" alt="Ethereum"> </div>
 
 The <b>Contracts</b> folder contains some examples of contracts written using solidity programming language.
 The <b>Apps</b> folder contains a sample asset management web application, written in <b>ASP.Net Core 3.1 Blazor Webserver</b> and uses <b>Web3js</b> to communicate with the deployed Smart contract <b>SimpleAssetAuditLogs.sol</b>. It also uses <b>Entity framework core</b> to store the Asset data.
