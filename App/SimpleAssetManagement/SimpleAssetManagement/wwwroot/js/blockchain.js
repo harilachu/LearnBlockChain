@@ -1,128 +1,148 @@
 ﻿//Web3 = require("web3");
 
 var web3;
-var eth_account = "0xEB7d1b55a9FC16DBb6B52fAb1cFb7AaAc2C6B405";
-var contract_address = "0x0bC8B5D4580C869908da761DFc3f8c35FF7AB58C";
+var eth_account = "0xA6C763acc2f47E674273425e1500c05A4F8e607e";
+var contract_address = "0xc3AF16a2d0837290f26Ba21A0b93118B495F8878";
 var abi = [
 	{
-		"constant": false,
 		"inputs": [
 			{
-				"name": "userid",
-				"type": "uint16"
-			},
-			{
-				"name": "id",
-				"type": "uint256"
-			},
-			{
+				"internalType": "string",
 				"name": "dateTimeStamp",
 				"type": "string"
 			},
 			{
+				"internalType": "string",
 				"name": "user",
 				"type": "string"
 			},
 			{
+				"internalType": "string",
 				"name": "change",
 				"type": "string"
 			},
 			{
+				"internalType": "string",
 				"name": "oldValue",
 				"type": "string"
 			},
 			{
+				"internalType": "string",
 				"name": "newValue",
 				"type": "string"
 			}
 		],
 		"name": "InsertLog",
 		"outputs": [],
-		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
 		"inputs": [],
-		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "constructor"
 	},
 	{
-		"constant": true,
+		"inputs": [],
+		"name": "AuditLogCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
-				"name": "userid",
-				"type": "uint16"
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "AuditLogs",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "_dateTimeStamp",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_user",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_change",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_oldValue",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_newValue",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "FetchLogCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "count",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
 			}
 		],
 		"name": "FetchLogs",
 		"outputs": [
 			{
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"name": "dateTimeStamp",
+				"internalType": "string",
+				"name": "datetimestamp",
 				"type": "string"
 			},
 			{
+				"internalType": "string",
 				"name": "user",
 				"type": "string"
 			},
 			{
+				"internalType": "string",
 				"name": "change",
 				"type": "string"
 			},
 			{
-				"name": "oldValue",
+				"internalType": "string",
+				"name": "oldvalue",
 				"type": "string"
 			},
 			{
-				"name": "newValue",
+				"internalType": "string",
+				"name": "newvalue",
 				"type": "string"
 			}
 		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "",
-				"type": "uint16"
-			}
-		],
-		"name": "Logs",
-		"outputs": [
-			{
-				"name": "_id",
-				"type": "uint256"
-			},
-			{
-				"name": "_dateTimeStamp",
-				"type": "string"
-			},
-			{
-				"name": "_user",
-				"type": "string"
-			},
-			{
-				"name": "_change",
-				"type": "string"
-			},
-			{
-				"name": "_oldValue",
-				"type": "string"
-			},
-			{
-				"name": "_newValue",
-				"type": "string"
-			}
-		],
-		"payable": false,
 		"stateMutability": "view",
 		"type": "function"
 	}
@@ -158,4 +178,18 @@ async function FetchLogs(userid)
 	);
 
 	return logresult;
+}
+
+async function FetchLogCount() {
+	var count = await new_contract.methods.FetchLogCount().call().then(
+		function (result) {
+			return result;
+		}
+	);
+
+	return count;
+}
+
+async function AddLog(datetime, user, change, oldvalue, newvalue) {
+	await new_contract.methods.InsertLog(datetime, user, change, oldvalue, newvalue).send();
 }

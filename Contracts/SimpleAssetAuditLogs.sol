@@ -1,11 +1,10 @@
-pragma solidity ^0.5.1;
+pragma solidity ^0.6.1;
 
 contract AuditLogContract
 {
     address owner;
     
     struct AuditLog{
-        uint256 _id;
         string _dateTimeStamp;
         string _user;
         string _change;
@@ -13,7 +12,11 @@ contract AuditLogContract
         string _newValue;
     }
     
-    mapping(uint16 => AuditLog) public Logs;
+    //address[] public LogUsers;
+    //mapping(address => AuditLog[]) public MappedLogs;
+    
+    AuditLog[] public AuditLogs;
+    uint256 public AuditLogCount;
     
     modifier onlyOwner(){
         require(msg.sender == owner);
@@ -24,34 +27,39 @@ contract AuditLogContract
         owner = msg.sender;
     }
     
-    function InsertLog(uint16 userid, 
-        uint256 id,
+    function InsertLog(
         string memory dateTimeStamp,
         string memory user,
         string memory change,
         string memory oldValue,
-        string memory newValue) public onlyOwner
+        string memory newValue) public
     {
-        Logs[userid] = AuditLog(id, dateTimeStamp, user, change, oldValue, newValue);
+        //LogUsers.push(msg.sender);
+        AuditLogs.push(AuditLog(dateTimeStamp, user, change, oldValue, newValue));
+        AuditLogCount++;
     }
         
-    function FetchLogs(uint16 userid) public view 
-    returns(
-        uint256 id, 
-        string memory dateTimeStamp, 
+    function FetchLogs(uint256 index) public view 
+        returns(
+        string memory datetimestamp, 
         string memory user, 
         string memory change, 
-        string memory oldValue, 
-        string memory newValue)
+        string memory oldvalue, 
+        string memory newvalue)
     {
-        AuditLog memory log = Logs[userid];
-        id = log._id;
-        dateTimeStamp = log._dateTimeStamp;
-        user = log._user;
-        change = log._change;
-        oldValue = log._oldValue;
-        newValue = log._newValue;
+        datetimestamp = AuditLogs[index]._dateTimeStamp;
+        user = AuditLogs[index]._user;
+        change = AuditLogs[index]._change;
+        oldvalue = AuditLogs[index]._oldValue;
+        newvalue = AuditLogs[index]._newValue;
+        
+        return (datetimestamp, user, change, oldvalue, newvalue);
     }
     
+    function FetchLogCount() public view returns (uint256 count)
+    {
+        count = AuditLogCount;
+        return count;
+    }
 }
 

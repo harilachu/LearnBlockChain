@@ -2,11 +2,40 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: url('../images/eth2.png');
+    /* Center and scale the image nicely */
+    background-position: center
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h1, h2, h3, h4, h5, p, div {
+    color: whitesmoke
+}
+
+table{
+    border-radius: 5px;
 }
 
 a, .btn-link {
-    color: #0366d6;
+    color: white;
+    font-size: large;
+    font-family: Arial
 }
+
+.nav-link.btn.btn-link {
+    color: white;
+    font-size: large;
+    font-family: Arial
+}
+
+.nav-link {
+    color: #0094ff;
+}
+
+/*a, .btn-link {
+    color: #0094ff;
+}*/
 
 .btn-primary {
     color: #fff;
@@ -30,16 +59,21 @@ app {
     flex: 1;
 }
 
-    .main .top-row {
-        background-color: #f7f7f7;
-        border-bottom: 1px solid #d6d5d5;
-        justify-content: flex-end;
-    }
+.newmain {
+    flex: 1;
+}
 
-        .main .top-row > a, .main .top-row .btn-link {
-            white-space: nowrap;
-            margin-left: 1.5rem;
-        }
+.main .top-row {
+    /*background-color: #f7f7f7;*/
+    background-image: linear-gradient(90deg, rgb(5, 39, 103) 20%, #0094ff 100%);
+    /*border-bottom: 1px solid #d6d5d5;*/
+    justify-content: flex-end;
+}
+
+    .main .top-row > a, .main .top-row .btn-link {
+        white-space: nowrap;
+        margin-left: 1.5rem;
+    }
 
 .main .top-row a:first-child {
     overflow: hidden;
@@ -47,7 +81,7 @@ app {
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-image: linear-gradient(90deg, rgb(5, 39, 103) 0%, #3a0647 70%);
 }
 
     .sidebar .top-row {
@@ -136,7 +170,7 @@ app {
     top: 0.5rem;
 }
 
-@media (max-width: 767.98px) {
+/*@media (max-width: 767.98px) {
     .main .top-row:not(.auth) {
         display: none;
     }
@@ -148,9 +182,32 @@ app {
     .main .top-row a, .main .top-row .btn-link {
         margin-left: 0;
     }
+}*/
+
+@media (max-width: 1000.98px) {
+
+    .nav-main-list {
+        display: none;
+    }
 }
 
-@media (min-width: 768px) {
+
+@media (min-width: 1001px) {
+    .nav.navbar-toggler{
+        display:none
+    }
+
+    .main .top-row.auth {
+        justify-content: space-evenly;
+        
+    }
+
+    .main .top-row a, .main .top-row .btn-link {
+        margin-left: 0;
+    }
+}
+
+/*@media (min-width: 768px) {
     app {
         flex-direction: row;
     }
@@ -177,7 +234,7 @@ app {
     }
 
     .sidebar .collapse {
-        /* Never collapse the sidebar for wide screens */
+        /* Never collapse the sidebar for wide screens */ /*
         display: block;
     }
-}
+}*/

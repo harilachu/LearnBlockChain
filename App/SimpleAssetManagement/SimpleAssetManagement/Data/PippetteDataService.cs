@@ -10,17 +10,20 @@ namespace SimpleAssetManagement.Data
 {
     public class PippetteDataService
     {
-        public PippetteDataService(ApplicationDbContext applicationDbContext, IMapper mapper)
+        public PippetteDataService(ApplicationDbContext applicationDbContext, IMapper mapper, AuditDataService auditDataService)
         {
             if (applicationDbContext == null) throw new ArgumentNullException("applicationDbContext");
             if (mapper == null) throw new ArgumentNullException("mapper");
+            if (auditDataService == null) throw new ArgumentNullException("auditDataService");
 
             DBContext = applicationDbContext;
             Mapper = mapper;
+            AuditDataService = auditDataService;
         }
 
         public ApplicationDbContext DBContext { get; }
         public IMapper Mapper { get; }
+        public AuditDataService AuditDataService { get; }
 
         public async Task<List<PippetteDataDto>> GetPippettesAsync()
         {
@@ -134,6 +137,17 @@ namespace SimpleAssetManagement.Data
 
             await DBContext.Pippettes.AddAsync(pippette);
             await DBContext.SaveChangesAsync();
+
+            var auditLogDto = new AuditLogDto()
+            {
+                DateTimeStamp = DateTime.UtcNow.Date.ToString("ddMMyyyyhhmmss"),
+                User = pippetteDataDto.Pippette_User_Name,
+                Change = "Inserted a pippette",
+                OldValue = string.Empty,
+                NewValue = pippetteDataDto.ToString()
+            };
+
+            await AuditDataService.AddLog(auditLogDto);
         }
 
         public async Task UpdatePippetteAsync(Guid pippetteId, PippetteDataDto pippetteDataDto)
@@ -145,8 +159,8 @@ namespace SimpleAssetManagement.Data
             var location = await DBContext.Locations.Where(l => l.Location_Name == pippetteDataDto.Location_Name).FirstOrDefaultAsync();
             var user = await DBContext.PippetteUsers.Where(u => u.Pippette_User_Name == pippetteDataDto.Pippette_User_Name).FirstOrDefaultAsync();
 
-            var pippette = await DBContext.Pippettes.Where(p => p.Pippette_Id == pippetteId).FirstOrDefaultAsync();
-
+            var pippette = await DBContext.Pippettes.Include(p=> p.Manufacture).Where(p => p.Pippette_Id == pippetteId).FirstOrDefaultAsync();
+            var oldValue = pippette.ToString();
             pippette.Manufacture_Id = manufacture.Manufacture_Id;
             pippette.Location_Id = location.Location_Id;
             pippette.Pippette_User_Id = user.Pippette_User_Id;
@@ -156,6 +170,17 @@ namespace SimpleAssetManagement.Data
 
             DBContext.Pippettes.Attach(pippette);
             await DBContext.SaveChangesAsync();
+
+            var auditLogDto = new AuditLogDto()
+            {
+                DateTimeStamp = DateTime.UtcNow.Date.ToString("ddMMyyyyhhmmss"),
+                User = pippetteDataDto.Pippette_User_Name,
+                Change = "Updated a pippette",
+                OldValue = oldValue,
+                NewValue = pippetteDataDto.ToString()
+            };
+
+            await AuditDataService.AddLog(auditLogDto);
         }
 
         public async Task DeletePippetteAsync(Guid pippetteId)
@@ -163,8 +188,20 @@ namespace SimpleAssetManagement.Data
             if (pippetteId == null) throw new ArgumentNullException("pippetteId");
 
             var pippette = await DBContext.Pippettes.Where(p => p.Pippette_Id == pippetteId).FirstOrDefaultAsync();
+            var oldValue = pippette.ToString();
             DBContext.Pippettes.Remove(pippette);
             await DBContext.SaveChangesAsync();
+
+            var auditLogDto = new AuditLogDto()
+            {
+                DateTimeStamp = DateTime.UtcNow.Date.ToString("ddMMyyyyhhmmss"),
+                User = "",
+                Change = "Deleted a pippette",
+                OldValue = oldValue,
+                NewValue = string.Empty
+            };
+
+            await AuditDataService.AddLog(auditLogDto);
         }
     }
 }

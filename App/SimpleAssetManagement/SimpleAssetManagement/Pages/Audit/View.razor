@@ -1,0 +1,53 @@
+﻿@page "/audit/view"
+
+@inject AuditDataService AuditDataService
+@inject NavigationManager NavigationManager
+
+
+<div class="modal-header">
+    <h3>View Audit Logs from Blockchain</h3>
+</div>
+
+@if (auditlogs == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-light table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th>DateTime</th>
+                <th>User</th>
+                <th>Change</th>
+                <th>Old Value</th>
+                <th>New Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (auditlogs != null)
+            {
+                @foreach (var log in auditlogs)
+                {
+            <tr>
+                <td>@log.DateTimeStamp</td>
+                <td>@log.User</td>
+                <td>@log.Change</td>
+                <td>@log.OldValue</td>
+                <td>@log.NewValue</td>
+            </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<AuditLogDto> auditlogs;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var logs = await AuditDataService.FetchAuditLogsAsync();
+        auditlogs = logs.ToList();
+    }
+}

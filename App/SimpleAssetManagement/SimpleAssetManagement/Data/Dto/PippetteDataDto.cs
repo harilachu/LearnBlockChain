@@ -30,5 +30,10 @@ namespace SimpleAssetManagement.Data
 
         [Display(Name = "User")]
         public string Pippette_User_Name { get; set; }
+
+        public override string ToString()
+        {
+            return $"M: {ModelName}, SNO: {SerialNumber}, UF: {UsageFrequency}, L: {Location_Name}, M: {Manufacture_Name}, U: {Pippette_User_Name}";
+        }
     }
 }
