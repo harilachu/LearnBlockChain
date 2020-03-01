@@ -16,3 +16,5 @@ If not you can also donwload the latest Dist file from the above mentioned Web3 
 8. Open Remix IDE https://remix.ethereum.org/ to deploy the contract <b>SimpleAssetAuditLogs.sol</b>. Use <b>Injected Web3</b> to deploy the smart contract using Metamask.
 9. Copy the <b>ABI</b> and <b>Contract address</b> from remix into the javascript file <b>blockkchain.js</b> available in the App and assign it to the corresponding variables.
 10. Run the App, and play around.
+
+Photo by David McBee from Pexels
