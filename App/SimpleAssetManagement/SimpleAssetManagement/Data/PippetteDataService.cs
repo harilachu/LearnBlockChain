@@ -159,7 +159,11 @@ namespace SimpleAssetManagement.Data
             var location = await DBContext.Locations.Where(l => l.Location_Name == pippetteDataDto.Location_Name).FirstOrDefaultAsync();
             var user = await DBContext.PippetteUsers.Where(u => u.Pippette_User_Name == pippetteDataDto.Pippette_User_Name).FirstOrDefaultAsync();
 
-            var pippette = await DBContext.Pippettes.Include(p=> p.Manufacture).Where(p => p.Pippette_Id == pippetteId).FirstOrDefaultAsync();
+            var pippette = await DBContext.Pippettes
+                .Include(p=> p.Manufacture)
+                .Include(p=> p.Location)
+                .Include(p=> p.PippetteUser)
+                .Where(p => p.Pippette_Id == pippetteId).FirstOrDefaultAsync();
             var oldValue = pippette.ToString();
             pippette.Manufacture_Id = manufacture.Manufacture_Id;
             pippette.Location_Id = location.Location_Id;
@@ -187,7 +191,11 @@ namespace SimpleAssetManagement.Data
         {
             if (pippetteId == null) throw new ArgumentNullException("pippetteId");
 
-            var pippette = await DBContext.Pippettes.Where(p => p.Pippette_Id == pippetteId).FirstOrDefaultAsync();
+            var pippette = await DBContext.Pippettes
+                .Include(p => p.Manufacture)
+                .Include(p => p.Location)
+                .Include(p => p.PippetteUser)
+                .Where(p => p.Pippette_Id == pippetteId).FirstOrDefaultAsync();
             var oldValue = pippette.ToString();
             DBContext.Pippettes.Remove(pippette);
             await DBContext.SaveChangesAsync();
