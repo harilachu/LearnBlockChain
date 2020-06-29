@@ -1,5 +1,5 @@
 ﻿//Web3 = require("web3");
-
+//sample comment
 var web3;
 var eth_account = "0xd3c69E4902ead5D1c68A6f491B7d48a2AcA1EEE8";
 var contract_address = "0x5863918d477F3f33e5f3cD75C153C4CD43724108";
