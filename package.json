@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "solc": "^0.6.8",
     "web3": "github:ethereum/web3.js"
   }
 }

@@ -5,3 +5,7 @@ node_modules
 /App/SimpleAssetManagement/.vs/SimpleAssetManagement/DesignTimeBuild
 /App/SimpleAssetManagement/.vs/SimpleAssetManagement/config
 /.vs
+/App/SimpleAssetManagement/NEConsole/bin/Debug/netcoreapp3.1
+/App/SimpleAssetManagement/NEConsole/obj
+/App/SimpleAssetManagement/Solidity_Project/bin/Debug/netcoreapp3.1
+/App/SimpleAssetManagement/Solidity_Project/obj

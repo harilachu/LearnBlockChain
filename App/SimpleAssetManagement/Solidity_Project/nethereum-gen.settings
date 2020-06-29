@@ -1,0 +1,7 @@
+{
+    "projectName": "Solidity_Project",
+    "namespace": "Solidity_Project.Contracts",
+    "lang": 0,
+    "autoCodeGen": true,
+    "projectPath": "../NEConsole"
+}

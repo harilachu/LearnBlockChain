@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleAssetManagement", "SimpleAssetManagement\SimpleAssetManagement.csproj", "{7F40F876-52D3-4B16-BB63-1175BDCAB278}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NEConsole", "NEConsole\NEConsole.csproj", "{64ED43A0-18E4-4EC8-8538-919C8E6DEE88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solidity_Project", "Solidity_Project\Solidity_Project.csproj", "{937E1009-E8CC-4271-9DAD-FBEF39F1DBBA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{7F40F876-52D3-4B16-BB63-1175BDCAB278}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F40F876-52D3-4B16-BB63-1175BDCAB278}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F40F876-52D3-4B16-BB63-1175BDCAB278}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64ED43A0-18E4-4EC8-8538-919C8E6DEE88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64ED43A0-18E4-4EC8-8538-919C8E6DEE88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64ED43A0-18E4-4EC8-8538-919C8E6DEE88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64ED43A0-18E4-4EC8-8538-919C8E6DEE88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{937E1009-E8CC-4271-9DAD-FBEF39F1DBBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{937E1009-E8CC-4271-9DAD-FBEF39F1DBBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{937E1009-E8CC-4271-9DAD-FBEF39F1DBBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{937E1009-E8CC-4271-9DAD-FBEF39F1DBBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
